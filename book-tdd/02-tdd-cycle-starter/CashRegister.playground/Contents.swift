@@ -41,7 +41,7 @@ class CashRegister {
     }
     
     func addItem(_ cost: Decimal) {
-        transactionTotal = cost
+        transactionTotal += cost
     }
 }
 
@@ -52,24 +52,54 @@ class CashRegisterTests: XCTestCase {
 //      XCTAssertNotNil(CashRegister())
 //    }
     
+    var availableFunds: Decimal!
+    var sut: CashRegister!
+    var itemCost: Decimal!
+    
+    override func setUp() {
+        super.setUp()
+        availableFunds = 100
+        sut = CashRegister(availableFunds: availableFunds)
+        itemCost = 42
+    }
+    
+    override func tearDown() {
+        availableFunds = nil
+        sut = nil
+        itemCost = nil
+        super.tearDown()
+    }
+    
     func testInitAvailableFunds_setsAvailableFunds() {
       // given
-      let availableFunds = Decimal(100)
-    // when
-      let sut = CashRegister(availableFunds: availableFunds)
+//      let availableFunds = Decimal(100)
+//    // when
+//      let sut = CashRegister(availableFunds: availableFunds)
     // then
       XCTAssertEqual(sut.availableFunds, availableFunds)
     }
     
     func testAddItem_oneItem_addsCostToTransactionTotal() {
       // given
-      let availableFunds = Decimal(100)
-      let sut = CashRegister(availableFunds: availableFunds)
-      let itemCost = Decimal(42)
+//      let availableFunds = Decimal(100)
+//      let sut = CashRegister(availableFunds: availableFunds)
+//      let itemCost = Decimal(42)
       // when
       sut.addItem(itemCost)
     // then
       XCTAssertEqual(sut.transactionTotal, itemCost)
+    }
+    
+    func testAddItem_twoItems_addsCostsToTransactionTotal() {
+      // given
+//      let itemCost = Decimal(42)
+      let itemCost2 = Decimal(20)
+      let expectedTotal = itemCost + itemCost2
+    // when
+      sut.addItem(itemCost)
+      sut.addItem(itemCost2)
+    // then
+      XCTAssertEqual(sut.transactionTotal, expectedTotal)
     }
 }
 
